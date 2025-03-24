@@ -20,6 +20,8 @@ app.get("/api/dados", (req, res) => {
 });
 
 app.post("/api/dados", (req, res) => {
+    const { umidadeSolo1, umidadeSolo2, irrigador1, irrigador2 } = req.body;
+    
     const sql = "insert into sensores (umidadeSolo1, umidadeSolo2, irrigador1, irrigador2) VALUES (?, ?, ?, ?)";
     const values = [umidadeSolo1, umidadeSolo2, irrigador1, irrigador2];
 
