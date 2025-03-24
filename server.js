@@ -21,12 +21,13 @@ app.get("/api/dados", (req, res) => {
 
 app.post("/api/dados", (req, res) => {
     const { umidadeSolo1, umidadeSolo2, irrigador1, irrigador2 } = req.body;
-    
+
     const sql = "insert into sensores (umidadeSolo1, umidadeSolo2, irrigador1, irrigador2) VALUES (?, ?, ?, ?)";
     const values = [umidadeSolo1, umidadeSolo2, irrigador1, irrigador2];
 
     connection.query(sql, values, (err, result)=>{
         if (err) {
+            console.error('Erro ao inserir no banco:', err);
             return res.status(500).json({ error: "Erro ao inserir dados" });
         }
         res.json({ id: result.insertId, umidadeSolo1, umidadeSolo2, irrigador1, irrigador2 });
