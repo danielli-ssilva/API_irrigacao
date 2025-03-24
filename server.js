@@ -13,7 +13,7 @@ app.use(express.json());
 app.get("/api/dados", (req, res) => {
     connection.query("select * from sensores", (err, results) => {
         if (err){
-            return res.status(500).json({ error : "Erro na busca de dados"});
+            return res.status(500).json({ error : "Erro na busca de dados", details: err });
         } 
         res.json(results);
     });
@@ -27,7 +27,6 @@ app.post("/api/dados", (req, res) => {
 
     connection.query(sql, values, (err, result)=>{
         if (err) {
-            console.error('Erro ao inserir no banco:', err);
             return res.status(500).json({ error: "Erro ao inserir dados" });
         }
         res.json({ id: result.insertId, umidadeSolo1, umidadeSolo2, irrigador1, irrigador2 });
