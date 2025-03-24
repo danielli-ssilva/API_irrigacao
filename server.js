@@ -13,7 +13,7 @@ app.use(express.json());
 app.get("/api/dados", (req, res) => {
     connection.query("select * from sensores", (err, results) => {
         if (err){
-            return res.status(500).json({ error : "Erro na busca de dados", details: err });
+            return res.status(500).json({ error : "Erro na busca de dados"});
         } 
         res.json(results);
     });
@@ -32,6 +32,18 @@ app.post("/api/dados", (req, res) => {
         res.json({ id: result.insertId, umidadeSolo1, umidadeSolo2, irrigador1, irrigador2 });
     });
 });
+
+app.delete("/api/dados/:id", (req, res) => {
+    const {id} = req.params;
+    const sql = "DELETE FROM sensores WHERE id = ?";
+
+    connection.query(sql, [id], (err, result) => {
+        if (err){
+            return res.status(500).json({ error: "Erro ao deletar dados"});
+        }
+        res.json({ message: "Registro deletado!" });
+    })
+})
 
 app.listen(port, () => {
     'Server na porta ${port}';
